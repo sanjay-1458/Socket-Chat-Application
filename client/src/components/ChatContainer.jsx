@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import assets, { messagesDummyData } from "../assets/assets";
+import { formatMessageTime } from "../lib/util";
 
 function ChatContainer({ selectedUser, setSelectedUser }) {
-    const scrollEnd=useRef();
-    useEffect(()=>{
-        if(scrollEnd.current){
-            scrollEnd.current.scrollIntoView({behavior:"smooth"})
-        }
-    },[])
+  const scrollEnd = useRef();
+  useEffect(() => {
+    if (scrollEnd.current) {
+      scrollEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   return selectedUser ? (
     <div className="h-full overflow-y-scroll relative backdrop-blur-lg">
       <div className="flex itesm-center  gap-3 py-3 mx-4 border-b border-stone-500">
@@ -57,13 +58,24 @@ function ChatContainer({ selectedUser, setSelectedUser }) {
                 alt=""
                 className="w-7 rounded-full"
               />
-              <p className="text-gray-500">{msg.createdAt}</p>
+              <p className="text-gray-500">
+                {formatMessageTime(msg.createdAt)}
+              </p>
             </div>
           </div>
         ))}
-        <div ref={scrollEnd}>
+        <div ref={scrollEnd}></div>
 
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3">
+        <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
+          <input type="text" placeholder="Send a message" className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"/>
+          <input type="file" id="image" accept="image/png image/jpeg" hidden />
+          <label for="image">
+            <img src={assets.gallery_icon} className="w-5 mr-2 cursor-pointer"/>
+          </label>
         </div>
+        <img src={assets.send_button} className="w-7 cursor-pointer" />
       </div>
     </div>
   ) : (

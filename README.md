@@ -49,4 +49,27 @@ Here `state lifting` can be seen as the user selcted on left side bar component 
 We each component recieve the shared state as props.
 The right side bar conatins logo, logout, edit profile options and when user click on `Edit Profile`, they are navigated to `Profile Page` here navigation is used via `useNavigation` hook. This is used for navigation because here we want navigation based on logic. Create a search bar for searching users and if it is empty then display each user.
 
-Right sidebar if focused on displaying users, showning whch user is online/offline along with number of unread messages
+Right sidebar if focused on displaying users, showning whch user is online/offline along with number of unread messages.
+
+Based on id, the css flex is changed for sender and reciever, and a util function is created to convert date `"createdAt"` to proper time.
+```
+export function formatMessageTime(date) {
+  return new Date(date).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+```
+
+When user click on the chat they are scrolled to the bottom of the chat, since it is a dom property, `useRef` hook is used.
+
+```
+const scrollEnd=useRef();
+useEffect(()=>{
+    if(scrollEnd.current){
+        scrollEnd.current.scrollIntoView({behavior:"smooth"})
+    }
+},[])
+<div ref={scrollEnd}></div>
+```
